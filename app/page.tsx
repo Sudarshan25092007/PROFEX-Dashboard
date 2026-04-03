@@ -34,20 +34,24 @@ export default function LandingPage() {
           PROFEX
         </h1>
         
-        <p className="text-white/60 text-lg md:text-xl font-light tracking-wide max-w-2xl mx-auto mb-16">
-          Lightning-fast execution. Deep liquidity. Institutional-grade analytics for the elite trader.
+        <p className="text-white/60 text-base md:text-lg font-light tracking-wide max-w-2xl mx-auto mb-12">
+          Profex is a structured forex trading algorithm built to operate in live market conditions with a focus on consistency and controlled performance.
         </p>
         
         {/* Border-Beam Get Started Button */}
         <button
           onClick={handleGetStarted}
-          className="border-beam-container group w-64 h-16 cursor-pointer hover:shadow-[0_10px_40px_rgba(255,255,255,0.15)] transition-all duration-500 active:scale-95"
+          className="border-beam-container group w-64 h-16 cursor-pointer hover:shadow-[0_10px_40px_rgba(255,255,255,0.15)] transition-all duration-500 active:scale-95 mb-12"
         >
           <div className="border-beam-inner flex items-center justify-center gap-3">
             <span className="text-white font-semibold tracking-widest uppercase text-sm">Get Started</span>
             <ArrowRight className="w-4 h-4 text-white/50 group-hover:text-white transition-colors duration-300" />
           </div>
         </button>
+
+        <p className="text-white/40 text-sm md:text-base font-light max-w-3xl mx-auto tracking-wide">
+          Profex is not built on assumptions or hype—it is built on structure, precision, and a commitment to consistent performance in the forex market.
+        </p>
       </motion.div>
 
       {/* Page Wipe Transition overlay */}
