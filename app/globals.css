@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-white min-h-screen font-sans antialiased overflow-x-hidden relative;
+    background-color: #040404;
+  }
+
+  /* Animated Grain overlay */
+  body::before {
+    content: "";
+    @apply fixed inset-0 pointer-events-none z-[-1];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    animation: noise 0.5s infinite steps(2);
+  }
+}
+
+@keyframes noise {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -2%); }
+  20% { transform: translate(-4%, 2%); }
+  30% { transform: translate(2%, -4%); }
+  40% { transform: translate(-2%, 4%); }
+  50% { transform: translate(-4%, -2%); }
+  60% { transform: translate(2%, 2%); }
+  70% { transform: translate(4%, -4%); }
+  80% { transform: translate(-2%, 2%); }
+  90% { transform: translate(2%, -2%); }
+}
+
+@layer utilities {
+  .text-metallic-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #71717a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+  }
+
+  /* Complex border-beam button */
+  .border-beam-container {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 9999px;
+  }
+  
+  .border-beam-container::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, rgba(255,255,255,0.8), transparent 30%);
+    @apply animate-border-beam;
+    z-index: 0;
+  }
+
+  .border-beam-inner {
+    position: absolute;
+    inset: 1px;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 9999px;
+    z-index: 1;
+  }
+}
