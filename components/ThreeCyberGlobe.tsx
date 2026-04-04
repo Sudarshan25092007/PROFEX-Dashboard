@@ -7,6 +7,9 @@ import * as THREE from 'three';
 
 const mouseRef = { x: 0, y: 0 };
 
+/* ═══════════════════════════════════════
+   FRESNEL RIM GLOW MATERIAL (Mouse-Follow)
+   ═══════════════════════════════════════ */
 class FresnelGlowMaterial extends THREE.ShaderMaterial {
   constructor() {
     super({
@@ -14,6 +17,7 @@ class FresnelGlowMaterial extends THREE.ShaderMaterial {
         glowColor: { value: new THREE.Color('#ffffff') },
         intensity: { value: 2.8 },
         power: { value: 5.0 },
+        uMouse: { value: new THREE.Vector2(0, 0) },
       },
       vertexShader: `
         varying vec3 vNormal;
@@ -28,12 +32,19 @@ class FresnelGlowMaterial extends THREE.ShaderMaterial {
         uniform vec3 glowColor;
         uniform float intensity;
         uniform float power;
+        uniform vec2 uMouse;
         varying vec3 vNormal;
         varying vec3 vPosition;
         void main() {
           vec3 viewDir = normalize(-vPosition);
           float fresnel = 1.0 - max(dot(viewDir, vNormal), 0.0);
-          fresnel = pow(fresnel, power) * intensity;
+          
+          // Spotlight effect: modulate fresnel by distance to mouse position
+          // Normalized device coordinates (-1 to 1) for the mouse position 
+          // are used to bias the normal.
+          float mouseFocus = max(dot(vNormal, normalize(vec3(uMouse.x, uMouse.y, 1.0))), 0.0);
+          fresnel = pow(fresnel, power) * intensity * (0.6 + 0.4 * mouseFocus);
+          
           gl_FragColor = vec4(glowColor, fresnel);
         }
       `,
@@ -151,11 +162,17 @@ function FloatingCandlesticks({ isMobile }: { isMobile: boolean }) {
 
 function RotatingGlobe() {
   const globeRef = useRef<THREE.Group>(null);
+  const fresnelRef = useRef<THREE.ShaderMaterial>(null);
+
   useFrame((state) => {
     if (globeRef.current) {
         globeRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
-        globeRef.current.rotation.x = mouseRef.y * 0.1;
+        globeRef.current.rotation.x = mouseRef.y * 0.05;
         globeRef.current.rotation.y += mouseRef.x * 0.1;
+    }
+    if (fresnelRef.current) {
+        // Pass mouse position to shader for following spotlight
+        fresnelRef.current.uniforms.uMouse.value.set(state.pointer.x, state.pointer.y);
     }
   });
 
@@ -170,7 +187,7 @@ function RotatingGlobe() {
       </Suspense>
       <Sphere args={[3.55, 64, 64]}>
           {/* @ts-ignore */}
-          <fresnelGlowMaterial />
+          <fresnelGlowMaterial ref={fresnelRef} />
       </Sphere>
     </group>
   );
@@ -202,7 +219,6 @@ export default function ThreeCyberGlobe() {
         </Canvas>
       </div>
 
-      {/* FINAL POSITIONING LOCK: bottom: -30% right: -25% */}
       <div className="absolute 
         bottom-[-20%] right-[-20%] w-[90vw] h-[90vw] 
         md:bottom-[-30%] md:right-[-25%] md:w-[75vw] md:h-[120vh] 
