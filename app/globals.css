@@ -8,101 +8,120 @@
     background-color: #040404;
   }
 
-  /* Animated Grain overlay */
+  /* Subtle grain */
   body::before {
     content: "";
     @apply fixed inset-0 pointer-events-none z-[-1];
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.05;
-    animation: noise 0.5s infinite steps(2);
+    opacity: 0.03;
   }
-}
-
-@keyframes noise {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-2%, -2%); }
-  20% { transform: translate(-4%, 2%); }
-  30% { transform: translate(2%, -4%); }
-  40% { transform: translate(-2%, 4%); }
-  50% { transform: translate(-4%, -2%); }
-  60% { transform: translate(2%, 2%); }
-  70% { transform: translate(4%, -4%); }
-  80% { transform: translate(-2%, 2%); }
-  90% { transform: translate(2%, -2%); }
 }
 
 @layer utilities {
   .text-metallic-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #555555 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #444444 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
   }
 
   .fractured-x {
     display: inline-block;
     position: relative;
+    font-size: 1.5em;
+    vertical-align: -0.06em;
+    line-height: 0.8;
+    margin-left: -0.02em;
     color: #ffffff;
-    /* Base metallic look + fallback */
-    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #555555 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    @apply animate-flicker;
+    filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.4));
   }
 
   .fractured-x::before {
     content: "X";
     position: absolute;
     left: -2px;
-    top: 2px;
-    color: #8A2BE2;
-    z-index: -1;
-    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #8A2BE2;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
     opacity: 0.8;
-    filter: blur(2px);
+    filter: blur(1px);
+    @apply animate-pulse;
   }
 
   .fractured-x::after {
     content: "X";
     position: absolute;
     left: 2px;
-    top: -2px;
-    color: #39FF14;
-    z-index: -1;
-    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
-    opacity: 0.5;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #8A2BE2;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 0.6;
     filter: blur(2px);
   }
 
-  /* Complex border-beam button */
-  .border-beam-container {
-    position: relative;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(12px);
-    border-radius: 9999px;
-  }
-  
-  .border-beam-container::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent, #39FF14, transparent 30%);
-    @apply animate-border-beam;
-    z-index: 0;
+  /* Scanline Overlay */
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(255, 255, 255, 0.02) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 100;
+    pointer-events: none;
+    animation: scanline 10s linear infinite;
   }
 
-  .border-beam-inner {
-    position: absolute;
-    inset: 1px;
-    background: rgba(10, 10, 10, 0.85);
-    backdrop-filter: blur(20px);
-    border-radius: 9999px;
-    z-index: 1;
+  @keyframes scanline {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+  }
+
+  /* Thick Glassmorphism */
+  .thick-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Neon Border Utilities */
+  .neon-border-violet {
+    border-color: rgba(138, 43, 226, 0.3);
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.1);
+    transition: all 0.3s ease;
+  }
+  .neon-border-violet:hover, .neon-border-violet.selected {
+    border-color: rgba(138, 43, 226, 1);
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+  }
+
+  .neon-border-green {
+    border-color: rgba(57, 255, 20, 0.3);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.1);
+    transition: all 0.3s ease;
+  }
+  .neon-border-green:hover, .neon-border-green.selected {
+    border-color: rgba(57, 255, 20, 1);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
   }
 }
