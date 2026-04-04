@@ -64,14 +64,14 @@ export default function LandingPage() {
       <ThreeCyberGlobe />
 
       {/* Content Column (Strictly LEFT-ALIGNED) */}
-      <div className="z-10 flex flex-col items-start h-full justify-center max-w-7xl px-8 md:px-16 lg:px-24 pointer-events-none">
+      <div className="z-10 flex flex-col items-start h-full justify-center max-w-7xl px-8 md:px-16 lg:px-24 pointer-events-none mt-20 md:mt-0">
         
-        {/* BRAND LOGO WATERMARK (Top-Left) */}
+        {/* BRAND LOGO WATERMARK (Now Integrated into Flow to prevent overlap) */}
         <motion.div
           initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
           animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute top-16 left-8 md:left-16 lg:left-24 z-50 pointer-events-auto group"
+          className="z-50 pointer-events-auto group mb-12"
         >
           {/* High-Contrast "Light Mode" Badge */}
           <div className="relative p-1 rounded-lg border border-white/20 bg-slate-200/60 backdrop-blur-2xl overflow-hidden shadow-[0_0_25px_rgba(255,255,255,0.15)] flex items-center justify-center">
