@@ -1,6 +1,0 @@
-@echo off
-echo Starting Next.js setup...
-call npx --yes create-next-app@latest . --typescript --eslint --tailwind --app --src-dir false --import-alias "@/*" --use-npm
-echo Installing additional dependencies...
-call npm install three @react-three/fiber @react-three/drei framer-motion lucide-react
-echo Setup complete.
