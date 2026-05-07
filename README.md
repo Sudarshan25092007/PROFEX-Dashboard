@@ -84,12 +84,20 @@ PROFEX leverages a modern, highly optimized React ecosystem to deliver its compl
 ```bash
 PROFEX/
 ├── app/                  # Next.js 14 App Router, Layouts, and Core Pages
+│   ├── referrals/
+│   │   └── page.tsx  
+│   ├── globals.css    # Secure Broker Selection Terminal
+│   ├── layout.tsx
 │   ├── page.tsx          # High-Fidelity Landing & Authentication UI
-│   └── referrals/        # Secure Broker Selection Terminal
-├── components/           # React UI Components & 3D Elements
-│   └── ThreeCyberGlobe.tsx # WebGL Canvas, GLSL Shaders, Instanced Meshes
-├── config/               # Application Config (Referral routing logic)
-├── public/               # Static Assets (Logos, Metallic Seals, Banners)
+│   ├── components/   
+│   │   ├── TerminalHeader.tsx
+│   │   ├── ThreeAbstractMesh.tsx
+│   │   ├── ThreeLogoAndButton.tsx
+│   │   └── ThreeCyberGlobe.tsx 
+│   │   # WebGL Canvas, GLSL Shaders, Instanced Meshes
+│   ├── config/   
+│   │   └── referrals.ts        # Application Config (Referral routing logic)
+│   └── public/           # Static Assets (Logos, Metallic Seals, Banners)
 └── tailwind.config.ts    # Glassmorphism & custom utility classes
 ```
 
